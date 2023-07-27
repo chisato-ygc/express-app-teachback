@@ -23,7 +23,7 @@ jobs:
           when: always
       - store_test_results:
                 path: ~/testresults
-            - store_artifacts:
+      - store_artifacts:
                 path: ~/testresults
 workflows:
   basic_workflow:
