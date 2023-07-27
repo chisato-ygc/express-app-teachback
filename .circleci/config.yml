@@ -13,18 +13,29 @@ jobs:
           name: Create folder for test results
           command: mkdir ~/testresults
       - run: mkdir no_files_here
-      - run: 
-          name: Run tests
-          command: 
-              TEST=$(circleci tests glob "__test__/*.js")
-              circleci tests run --command="xargs pytest -o junit_family=legacy --junitxml=junit.xml" --verbose --split-by=timings
-              # npm test $TEST
+      - run:
+          name: Install JUnit coverage reporter
+          command: yarn add --dev jest-junit
+      - run:
+          command: |
+            npx jest --listTests | circleci tests run --command=“JEST_JUNIT_ADD_FILE_ATTRIBUTE=true xargs npx jest --config jest.config.js --runInBand --” --verbose --split-by=timings
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: ./reports/
+      
+      # - run: 
+      #     name: Run tests
+      #     command: 
+      #         TEST=$(circleci tests glob "__test__/*.js")
+      #         circleci tests run --command="xargs pytest -o junit_family=legacy --junitxml=junit.xml" --verbose --split-by=timings
+      #         # npm test $TEST
               
       - run:
           command: cp junit.xml ~/testresults/
           when: always
       - store_test_results:
-                path: ~/testresults
+          path: ./reports/
+      # - store_test_results:
+      #           path: ~/testresults
       - store_artifacts:
                 path: ~/testresults
       - persist_to_workspace:
