@@ -16,7 +16,7 @@ jobs:
           name: Run tests
           command: 
               TEST=$(circleci tests glob "__test__/*.js")
-              echo "$TEST" | circleci tests run --command="xargs yarn test -o junit_family=legacy --junitxml=junit.xml" --verbose --split-by=timings
+              echo "$TEST" | circleci tests run --command="xargs yarn test -o junit_family=legacy --junitxml=~/testresults/junit.xml" --verbose --split-by=timings
               # npm test $TEST
               
       - run:
