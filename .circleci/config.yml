@@ -15,16 +15,17 @@ jobs:
       - run: 
           name: Run tests
           command: 
-              TEST=$(circleci tests glob "__test__/*.js" | circleci tests split --split-by=timings)
-              npm test $TEST
+              TEST=$(circleci tests glob "__test__/*.js")
+              echo "$TEST" | circleci tests run --command="xargs yarn test -o junit_family=legacy --junitxml=junit.xml" --verbose --split-by=timings
+              # npm test $TEST
               
       - run:
           command: cp junit.xml ~/testresults/
           when: always
       - store_test_results:
                 path: ~/testresults
-      # - store_artifacts:
-      #           path: ~/testresults
+      - store_artifacts:
+                path: ~/testresults
 workflows:
   basic_workflow:
     jobs:
