@@ -12,7 +12,7 @@ jobs:
       - run: 
           name: Create folder for test results
           command: mkdir ~/testresults
-          - run: mkdir no_files_here
+      - run: mkdir no_files_here
       - run: 
           name: Run tests
           command: 
