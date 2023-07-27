@@ -5,6 +5,7 @@ jobs:
   build_and_test:
     executor: node/default
     resource_class: small
+    parallelism: 5
     steps:
       - checkout
       - node/install-packages
@@ -13,7 +14,10 @@ jobs:
           command: mkdir ~/testresults
       - run: 
           name: Run tests
-          command: npm test
+          command: 
+          TEST=$(circleci tests glob "__test__/*.js" | circleci tests split )
+          npm test $TEST
+          # --split-by=timings
       - run:
           command: cp junit.xml ~/testresults/
           when: always
