@@ -22,7 +22,9 @@ jobs:
           command: cp junit.xml ~/testresults/
           when: always
       - store_test_results:
-          path: ~/testresults/
+                path: ~/testresults
+            - store_artifacts:
+                path: ~/testresults
 workflows:
   basic_workflow:
     jobs:
