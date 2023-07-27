@@ -12,11 +12,12 @@ jobs:
       - run: 
           name: Create folder for test results
           command: mkdir ~/testresults
+          - run: mkdir no_files_here
       - run: 
           name: Run tests
           command: 
               TEST=$(circleci tests glob "__test__/*.js")
-              echo "$TEST" | circleci tests run --command="xargs yarn test -o junit_family=legacy" --verbose --split-by=timings
+              circleci tests run --command="xargs pytest -o junit_family=legacy --junitxml=test-results/junit.xml" --verbose --split-by=timings
               # npm test $TEST
               
       - run:
@@ -26,6 +27,10 @@ jobs:
                 path: ~/testresults
       - store_artifacts:
                 path: ~/testresults
+      - persist_to_workspace:
+                root: .
+                paths:
+                 - no_files_here
 workflows:
   basic_workflow:
     jobs:
