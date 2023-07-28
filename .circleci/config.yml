@@ -4,7 +4,7 @@ orbs:
 jobs:
   build_and_test:
     executor: node/default
-    resource_class: small
+    resource_class: medium
     parallelism: 5
     steps:
       - checkout
@@ -12,7 +12,7 @@ jobs:
       - run: 
           name: Create folder for test results
           command: mkdir ~/testresults
-      - run: mkdir no_files_here
+      # - run: mkdir no_files_here
       - run:
           name: Install JUnit coverage reporter
           command: yarn add --dev jest-junit
@@ -33,10 +33,10 @@ jobs:
       #           path: ~/testresults
       - store_artifacts:
                 path: ~/testresults
-      - persist_to_workspace:
-                root: .
-                paths:
-                 - no_files_here
+      # - persist_to_workspace:
+      #           root: .
+      #           paths:
+      #            - no_files_here
 workflows:
   basic_workflow:
     jobs:
