@@ -24,9 +24,9 @@ jobs:
             JEST_JUNIT_OUTPUT_DIR: ./reports/
     
               
-      - run:
-          command: cp junit.xml ~/testresults/
-          when: always
+      # - run:
+      #     command: cp junit.xml ~/testresults/
+      #     when: always
       - store_test_results:
           path: ./reports/
       # - store_test_results:
